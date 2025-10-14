@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Archipelago.MultiClient.Net;
+using Archipelago.MultiClient.Net.Enums;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -13,6 +15,7 @@ using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.Runtime;
 using JetBrains.Annotations;
 using LibCpp2IL.Elf;
+using Newtonsoft.Json;
 using PlayFab.Internal;
 using TMPro;
 using UnityEngine; // For Input
@@ -21,6 +24,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static APKingdom2Crown.KeyHandler;
+
+//344 x 160
+//1920 x 1080
 
 // AP STARTED ID OFFSET START 755067
 
@@ -63,6 +69,7 @@ public class Plugin : BasePlugin
         ClassInjector.RegisterTypeInIl2Cpp<ProgressUpdateChecks>();
         ClassInjector.RegisterTypeInIl2Cpp<StatueBlocker>();
         ClassInjector.RegisterTypeInIl2Cpp<ArchipelagoPauseUI>();
+        ClassInjector.RegisterTypeInIl2Cpp<InGameLogger>();
 
 
         var harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
@@ -90,10 +97,10 @@ public class Plugin : BasePlugin
         _ = typeof(ProgressUpdateChecks);
         _ = typeof(StatueBlocker);
         _ = typeof(ArchipelagoPauseUI);
+        _ = typeof(InGameLogger);
     }
 
 }
-
 
 [HarmonyPatch(typeof(SteedSpawn), "Pay")]
 public class SteedPayPatch
@@ -315,6 +322,7 @@ public class StatueOnPayPatch
         Plugin.Log.LogInfo($"[AP] Hermit Brough → Sending Check for Location ");
     }
 }
+
 [HarmonyPatch(typeof(Kingdom), "Update")]
 public class KingdomUpdatePatch
 {
@@ -376,6 +384,8 @@ public class ScreenManagerAwakePatch
 {
     static void Postfix(ScreenManager __instance)
     {
+        if (PluginUI.UILogCanvas == null) PluginUI.SetupUI();
+
         var go = __instance.transform.GetChild(5).gameObject;
 
         // Check if component exists
@@ -387,6 +397,28 @@ public class ScreenManagerAwakePatch
     }
 }
 
+[HarmonyPatch(typeof(DogSpawn), "FreeDog")]
+public class DogSpawnFreeDogPatch
+{
+    static void Prefix(DogSpawn __instance)
+    {
+        if (!Plugin.APconnected) return;
+        Plugin.AP?.CompleteLocation(APIDRegistry.Get("Hermit Ballista Unlock"));
+        Plugin.Log.LogInfo($"[AP] Dog acquired  → Island 2 Dog");
+    }
+}
+
+[HarmonyPatch(typeof(Player), "LoseCrown")]
+public class PlayerLoseCrownPatch
+{
+    static void Postfix(Player __instance)
+    {
+        if (!Plugin.APconnected) return;
+        //TODO Death Link Packet
+        Plugin.AP?.Session.Socket.SendPacket(null);
+        Plugin.Log.LogInfo($"[AP] Dog acquired  → Island 2 Dog");
+    }
+}
 
 public static class APHelper
 {
@@ -546,9 +578,9 @@ public static class APIDsRegisterClass
         APIDRegistry.AddNew("Progressive Castle Unlock T2", 755092);            //Item      1
         APIDRegistry.AddNew("Progressive Castle Unlock T3", 755093);            //Item      1 
         APIDRegistry.AddNew("Progressive Castle Unlock T4", 755094);            //Item      1 
-        APIDRegistry.AddNew("Progressive Castle Unlock T5", 755095);            //Item      1 
-        APIDRegistry.AddNew("Progressive Castle Unlock T6", 755177);            //Item      1 
-        APIDRegistry.AddNew("Progressive Castle Unlock T7", 755178);            //Item      1 
+        APIDRegistry.AddNew("Progressive Castle Unlock T5", 755095);  //Stone   //Item      1 
+        APIDRegistry.AddNew("Progressive Castle Unlock T6", 755177);  //Stone   //Item      1 
+        APIDRegistry.AddNew("Progressive Castle Unlock T7", 755178);  //Iron    //Item      1 
 
         // --- Hermits ---
         APIDRegistry.AddNew("Hermit Ballista Unlock", 755096);                  //Location  1
@@ -563,13 +595,13 @@ public static class APIDsRegisterClass
         APIDRegistry.AddNew("Hermit Warrior Use", 755105);                      //Item      1
 
         // --- Island 1 ---
-        APIDRegistry.AddNew("Island 1 Liberation", 755106);                     //Location
+        APIDRegistry.AddNew("Island 1 Liberation", 755106);                     //Location  1
         APIDRegistry.AddNew("Progressive Coin Chest 1", 755107);                //Location  1   
         APIDRegistry.AddNew("Progressive Coin Chest 2", 755108);                //Location  1   
         APIDRegistry.AddNew("Progressive Coin Chest 3", 755109);                //Location  1   
 
         // --- Island 2 ---                     
-        APIDRegistry.AddNew("Island 2 Liberation", 755110);                     //Location
+        APIDRegistry.AddNew("Island 2 Liberation", 755110);                     //Location  1
         APIDRegistry.AddNew("Progressive Coin Chest 4", 755111);                //Location  1   
         APIDRegistry.AddNew("Progressive Coin Chest 5", 755112);                //Location  1   
         APIDRegistry.AddNew("Progressive Coin Gem 1", 755113);                  //Location  1
@@ -594,7 +626,7 @@ public static class APIDsRegisterClass
         APIDRegistry.AddNew("Progressive Coin Gem 9", 755128);                  //Location  1
 
         // --- Island 5 ---                     
-        APIDRegistry.AddNew("Island 5 Liberation", 755129);                     //Location
+        APIDRegistry.AddNew("Island 5 Liberation", 755129);                     //Location  1
         APIDRegistry.AddNew("Progressive Coin Gem 10", 755130);                 //Location  1
         APIDRegistry.AddNew("Progressive Coin Gem 11", 755131);                 //Location  1
         APIDRegistry.AddNew("Progressive Coin Gem 12", 755132);                 //Location  1
@@ -662,10 +694,53 @@ public static class APIDsRegisterClass
         APItemRegistry.RegisterItems(statusUseIds);
         APItemRegistry.RegisterItems(techUseIds);
         APItemRegistry.RegisterItems(castleUseIds);
-
     }
 
     public static int GetID(string name) => APIDRegistry.Get(name);
+}
+public static class PluginUI
+{
+    public static Canvas UILogCanvas;
+    public static TMP_FontAsset KingdomTMPFont;
+    public static InGameLogger Logger;
+
+    public static void SetupUI()
+    {
+        // Create Canvas
+        if (UILogCanvas == null)
+        {
+            GameObject canvasGO = new GameObject("AP_UI_Canvas");
+            UILogCanvas = canvasGO.AddComponent<Canvas>();
+            UILogCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasGO.AddComponent<CanvasScaler>();
+            canvasGO.AddComponent<GraphicRaycaster>();
+            UnityEngine.Object.DontDestroyOnLoad(canvasGO);
+        }
+
+        if (KingdomTMPFont != null) return;
+
+        TMP_FontAsset[] fonts = Resources.FindObjectsOfTypeAll<TMP_FontAsset>();
+        foreach (var font in fonts)
+        {
+            if (UnityEngine.Object.GetName(font).Contains("Kingdom"))
+            {
+                KingdomTMPFont = font;
+                Plugin.Log.LogInfo("[AP] Kingdom_TMP font found!");
+                break;
+            }
+        }
+
+        if (KingdomTMPFont == null)
+            Plugin.Log.LogWarning("[AP] Kingdom_TMP font not found, default font will be used!");
+
+        // Add InGameLogger
+        if (Logger == null)
+        {
+            GameObject go = new GameObject("AP_InGameLogger");
+            go.transform.SetParent(UILogCanvas.transform, false);
+            Logger = go.AddComponent<InGameLogger>();
+        }
+    }
 }
 
 
@@ -840,7 +915,7 @@ public class ArchipelagoPauseUI : MonoBehaviour
         Plugin.Log.LogInfo($"[AP] Connecting to {host} as {slot} with DeathLink {deathLinkOptions[deathLinkMode]}");
         Plugin.ConfigDeathLinkMode.Value = deathLinkMode;
         Plugin.APconnected = await Plugin.AP.Connect(host, slot, password);
-        
+
     }
 
     private async void Disconnect()
@@ -848,6 +923,97 @@ public class ArchipelagoPauseUI : MonoBehaviour
         Plugin.Log.LogInfo("[AP] Disconnecting from Archipelago");
         await Plugin.AP.Session.Socket.DisconnectAsync();
         Plugin.APconnected = false;
+    }
+}
+public class InGameLogger : MonoBehaviour
+{
+    private TMP_Text tmp;
+    private RectTransform panel;
+    private readonly Queue<string> logs = new Queue<string>();
+    private const int MaxLogs = 5;
+
+    // Target size in pixels at 1920x1080 reference resolution
+    private const float RefWidth = 1920f;
+    private const float RefHeight = 1080f;
+    private const float RefX = 1576f;
+    private const float RefY = 0f;
+    private const float RefW = 344f;
+    private const float RefH = 160f;
+
+    public Canvas canvas;
+
+    private void Awake()
+    {
+        canvas = PluginUI.UILogCanvas;
+        if (canvas == null)
+        {
+            var canvasGO = new GameObject("APInGameCanvas");
+            canvas = canvasGO.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasGO.AddComponent<CanvasScaler>();
+            canvasGO.AddComponent<GraphicRaycaster>();
+        }
+
+        // Create Panel
+        var panelGO = new GameObject("APLogPanel");
+        panelGO.transform.SetParent(canvas.transform);
+        panel = panelGO.AddComponent<RectTransform>();
+
+        // Anchor bottom-right
+        panel.anchorMin = new Vector2(0, 0);
+        panel.anchorMax = new Vector2(0, 0);
+        panel.pivot = new Vector2(0, 0);
+
+        // Scale to screen size
+        float scaleX = Screen.width / RefWidth;
+        float scaleY = Screen.height / RefHeight;
+
+        panel.anchoredPosition = new Vector2(RefX * scaleX, RefY * scaleY);
+        panel.sizeDelta = new Vector2(RefW * scaleX, RefH * scaleY);
+
+        // Background (optional)
+        var img = panelGO.AddComponent<Image>();
+        img.color = new Color(0f, 0f, 0f, 0.5f); // semi-transparent black
+
+        // Create TMP text
+        var textGO = new GameObject("APLogText");
+        textGO.transform.SetParent(panelGO.transform);
+        tmp = textGO.AddComponent<TextMeshProUGUI>();
+        tmp.font = PluginUI.KingdomTMPFont; // Ensure font is loaded
+        tmp.color = new Color32(0xff, 0xf2, 0xdb, 255);
+        tmp.enableWordWrapping = true;
+        tmp.alignment = TextAlignmentOptions.TopLeft;
+        tmp.fontSize = 24;
+        tmp.outlineWidth = 0.2f;
+        tmp.outlineColor = Color.black;
+
+        var textRT = tmp.GetComponent<RectTransform>();
+        textRT.anchorMin = new Vector2(0, 0);
+        textRT.anchorMax = new Vector2(1, 1);
+        textRT.offsetMin = new Vector2(5, 5);
+        textRT.offsetMax = new Vector2(-5, -5);
+    }
+
+    public void AddLog(string text)
+    {
+
+        if (tmp == null) return;
+
+        logs.Enqueue(text);
+        if (logs.Count > MaxLogs) logs.Dequeue();
+
+        tmp.text = "";
+        foreach (var log in logs)
+        {
+            tmp.text += $"• {log}\n";
+        }
+    }
+
+    public void ClearLogs()
+    {
+        logs.Clear();
+        if (tmp != null)
+            tmp.text = "";
     }
 }
 
@@ -864,12 +1030,14 @@ public class KeyHandler : MonoBehaviour
             return;
         }
         HandInput();
+        if(Plugin.APconnected != PluginUI.UILogCanvas.gameObject.active)PluginUI.UILogCanvas.gameObject.SetActive(Plugin.APconnected);
     }
 
     private void HandInput()
     {
         if (Input.GetKeyDown(KeyCode.Keypad0))
         {
+
             Plugin.Log.LogInfo("Butter Fingers");
 
             // Get the Il2CppSystem.Type for Player
@@ -944,6 +1112,8 @@ public class KeyHandler : MonoBehaviour
             }
         }
         else if (Input.GetKeyDown(KeyCode.Keypad4)) DeathLink();
+        else if (Input.GetKeyDown(KeyCode.Keypad5)) PluginUI.Logger.AddLog("Received Sword of Destiny!");
+        else if (Input.GetKeyDown(KeyCode.Keypad6)) PluginUI.Logger.ClearLogs();
     }
     public void DeathLink()
     {

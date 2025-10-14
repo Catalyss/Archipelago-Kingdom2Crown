@@ -16,23 +16,28 @@ namespace APKingdom2Crown.Archipelago
         {
             try
             {
-                var host = address.Split(':')[0].Replace(":", "");
-                var port = int.Parse(address.Split(':')[1].Replace(":", ""));
+                if (!Connected)
+                {
+                    var host = address.Split(':')[0].Replace(":", "");
+                    var port = int.Parse(address.Split(':')[1].Replace(":", ""));
 
-                Plugin.Log.LogInfo($"{host} , {port} , {slotName} , {password}");
+                    Plugin.Log.LogInfo($"{host} , {port} , {slotName} , {password}");
 
-                Session = ArchipelagoSessionFactory.CreateSession(host, port);
-                Session.Items.ItemReceived += OnItemReceived;
-                Session.Socket.PacketReceived += OnPacktRevieved;
+                    Session = ArchipelagoSessionFactory.CreateSession("ws://" + host, port);
+                    Session.Items.ItemReceived += OnItemReceived;
+                    Session.Socket.PacketReceived += OnPacktRevieved;
+
+                    Plugin.Log.LogInfo($"Caugh a Session = {Session != null}");
+                }
 
                 LoginResult result = await Task.Run(() => Session.TryConnectAndLogin(
                     "Kingdom Two Crown",     // game name (must match your server-side name)
                     slotName,
                     ItemsHandlingFlags.IncludeOwnItems | ItemsHandlingFlags.IncludeStartingInventory,
                     new Version(0, 6, 1),
-                    new string[] { "AP", "DeathLink" },
+                    new string[] { "AP", "DeathLink", "NoText" },
                     null,
-                    password,
+                    password == "" ? null : password,
                     true
                 ));
 
@@ -58,7 +63,7 @@ namespace APKingdom2Crown.Archipelago
 
         private static async void OnPacktRevieved(ArchipelagoPacketBase packet)
         {
-
+            Plugin.Log.LogInfo(packet.ToJObject().ToString());
         }
 
         private static async void OnItemReceived(ReceivedItemsHelper helper)
