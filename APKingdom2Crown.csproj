@@ -1,0 +1,409 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>APKingdom2Crown</AssemblyName>
+    <Product>Archipelago Randomizer</Product>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>APKingdom2Crown</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Archipelago.MultiClient.Net" Version="6.6.1" />
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+    <PackageReference Include="HarmonyX" Version="2.15.0" />
+  
+  <!-- AUTO-GENERATED INTEROP REFERENCES START -->
+    <Reference Include='__Generated-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\__Generated-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Assembly-CSharp-firstpass-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Assembly-CSharp-firstpass-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Assembly-CSharp-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Assembly-CSharp-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='com.rlabrecque.steamworks.net-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\com.rlabrecque.steamworks.net-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='DOTween43-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\DOTween43-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='DOTween46-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\DOTween46-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='DOTweenPro-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\DOTweenPro-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='DOTween-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\DOTween-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='GalaxyCSharp-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\GalaxyCSharp-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='GDK-Tools-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\GDK-Tools-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='GdkUtilities-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\GdkUtilities-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Haglet-Assembly-CSharp-02-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Haglet-Assembly-CSharp-02-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppMono.Security-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppMono.Security-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2Cppmscorlib-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2Cppmscorlib-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem.Configuration-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem.Configuration-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem.Core-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem.Core-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem.Data-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem.Data-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem.Drawing-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem.Drawing-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem.Numerics-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem.Numerics-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem.Runtime.Serialization-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem.Runtime.Serialization-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem.Xml.Linq-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem.Xml.Linq-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem.Xml-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem.Xml-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Il2CppSystem-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Il2CppSystem-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Playfab.Party-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Playfab.Party-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='PlayFab-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\PlayFab-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Purchasing.Common-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Purchasing.Common-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Rewired_Core-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Rewired_Core-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Rewired_Windows-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Rewired_Windows-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='SonyPS4SavedGames-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\SonyPS4SavedGames-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.2D.Animation.Runtime-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.2D.Animation.Runtime-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Burst.Unsafe-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Burst.Unsafe-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Burst-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Burst-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Collections.LowLevel.ILSupport-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Collections.LowLevel.ILSupport-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Collections-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Collections-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.InternalAPIEngineBridge.001-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.InternalAPIEngineBridge.001-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Mathematics-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Mathematics-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Networking.Transport-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Networking.Transport-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.RenderPipelines.Core.Runtime-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.RenderPipelines.Core.Runtime-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Analytics-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Analytics-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core.Configuration-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core.Configuration-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core.Device-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core.Device-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core.Environments.Internal-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core.Environments.Internal-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core.Internal-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core.Internal-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core.Registration-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core.Registration-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core.Scheduler-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core.Scheduler-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core.Telemetry-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core.Telemetry-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core.Threading-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core.Threading-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Services.Core-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Services.Core-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.TextMeshPro-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.TextMeshPro-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='Unity.Timeline-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\Unity.Timeline-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.AccessibilityModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.AccessibilityModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.AIModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.AIModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.AndroidJNIModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.AndroidJNIModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.AnimationModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.AnimationModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.AssetBundleModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.AssetBundleModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.AudioModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.AudioModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.ClothModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.ClothModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.ClusterInputModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.ClusterInputModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.ClusterRendererModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.ClusterRendererModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.ContentLoadModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.ContentLoadModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.CoreModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.CoreModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.CrashReportingModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.CrashReportingModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.DirectorModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.DirectorModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.DSPGraphModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.DSPGraphModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.GameCenterModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.GameCenterModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.GIModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.GIModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.GridModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.GridModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.HotReloadModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.HotReloadModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.ImageConversionModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.ImageConversionModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.IMGUIModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.IMGUIModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.InputLegacyModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.InputLegacyModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.InputModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.InputModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.JSONSerializeModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.JSONSerializeModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.LocalizationModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.LocalizationModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.ParticleSystemModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.ParticleSystemModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.PerformanceReportingModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.PerformanceReportingModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Physics2DModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Physics2DModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.PhysicsModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.PhysicsModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.ProfilerModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.ProfilerModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.PropertiesModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.PropertiesModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing.AppleCore-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing.AppleCore-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing.AppleMacosStub-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing.AppleMacosStub-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing.AppleStub-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing.AppleStub-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing.SecurityCore-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing.SecurityCore-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing.SecurityStub-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing.SecurityStub-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing.Stores-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing.Stores-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing.WinRTCore-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing.WinRTCore-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing.WinRTStub-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing.WinRTStub-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.Purchasing-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.Purchasing-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.ScreenCaptureModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.ScreenCaptureModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.SharedInternalsModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.SharedInternalsModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.SpriteMaskModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.SpriteMaskModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.SpriteShapeModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.SpriteShapeModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.StreamingModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.StreamingModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.SubstanceModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.SubstanceModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.SubsystemsModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.SubsystemsModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.TerrainModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.TerrainModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.TerrainPhysicsModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.TerrainPhysicsModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.TextCoreFontEngineModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.TextCoreFontEngineModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.TextCoreTextEngineModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.TextCoreTextEngineModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.TextRenderingModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.TextRenderingModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.TilemapModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.TilemapModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.TLSModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.TLSModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UIElementsModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UIElementsModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UIModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UIModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UI-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UI-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UmbraModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UmbraModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityAnalyticsCommonModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityAnalyticsCommonModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityAnalyticsModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityAnalyticsModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityConnectModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityConnectModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityCurlModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityCurlModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityTestProtocolModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityTestProtocolModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityWebRequestAssetBundleModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityWebRequestAssetBundleModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityWebRequestAudioModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityWebRequestAudioModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityWebRequestModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityWebRequestModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityWebRequestTextureModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityWebRequestTextureModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.UnityWebRequestWWWModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.UnityWebRequestWWWModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.VehiclesModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.VehiclesModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.VFXModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.VFXModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.VideoModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.VideoModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.VirtualTexturingModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.VirtualTexturingModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.VRModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.VRModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.WindModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.WindModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine.XRModule-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine.XRModule-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='UnityEngine-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\UnityEngine-publicized.dll</HintPath>
+    </Reference>
+    <Reference Include='XGamingRuntime-publicized'>
+        <HintPath>E:\SteamLibrary\steamapps\common\Kingdom Two Crowns\BepInEx\interop_publicized\XGamingRuntime-publicized.dll</HintPath>
+    </Reference>
+  <!-- AUTO-GENERATED INTEROP REFERENCES END -->
+  </ItemGroup>
+</Project>
+
