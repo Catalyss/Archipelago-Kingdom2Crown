@@ -1,9 +1,9 @@
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
-using Archipelago.MultiClient.Net.Models;
 using System;
 using System.Threading.Tasks;
+
 
 namespace APKingdom2Crown.Archipelago
 {
@@ -18,26 +18,25 @@ namespace APKingdom2Crown.Archipelago
             {
                 if (!Connected)
                 {
-                    var host = address.Split(':')[0].Replace(":", "");
-                    var port = int.Parse(address.Split(':')[1].Replace(":", ""));
+                    Plugin.Log.LogInfo($"{address} , {slotName} , {password}");
 
-                    Plugin.Log.LogInfo($"{host} , {port} , {slotName} , {password}");
-
-                    Session = ArchipelagoSessionFactory.CreateSession("ws://" + host, port);
+                    Session = ArchipelagoSessionFactory.CreateSession($"{address}");
+                    Session.Socket.SocketClosed += SocketClosed;
+                    Session.Socket.ErrorReceived += ErrorReceived;
                     Session.Items.ItemReceived += OnItemReceived;
                     Session.Socket.PacketReceived += OnPacktRevieved;
 
                     Plugin.Log.LogInfo($"Caugh a Session = {Session != null}");
                 }
-
+                //the Connect trigger OperationCanceledException causing a "Time out"
                 LoginResult result = await Task.Run(() => Session.TryConnectAndLogin(
-                    "Kingdom Two Crown",     // game name (must match your server-side name)
+                    "Kingdom Two Crowns",     // game name (must match your server-side name)
                     slotName,
-                    ItemsHandlingFlags.IncludeOwnItems | ItemsHandlingFlags.IncludeStartingInventory,
-                    new Version(0, 6, 1),
-                    new string[] { "AP", "DeathLink", "NoText" },
+                    ItemsHandlingFlags.AllItems,
+                    new Version("0.6.1"),
+                    new string[] { "DeathLink", "NoText" },
                     null,
-                    password == "" ? null : password,
+                    password,
                     true
                 ));
 
@@ -49,16 +48,30 @@ namespace APKingdom2Crown.Archipelago
                 else
                 {
                     var failure = (LoginFailure)result;
+                    Session = null;
                     Plugin.Log.LogError($"[AP] Login failed: {string.Join(", ", failure.Errors)}");
                     return false;
                 }
-
             }
             catch (Exception ex)
             {
                 Plugin.Log.LogError($"[AP] Connection failed: {ex}");
                 return false;
             }
+        }
+
+        public static void SocketClosed(string reason)
+        {
+            Console.WriteLine("WS CLOSED");
+            Console.WriteLine("Lost connection to Archipelago server. " + reason);
+        }
+
+        public static void ErrorReceived(Exception e, string message)
+        {
+            Console.WriteLine("WS ERRORED");
+            Console.WriteLine(message);
+            if (e != null) Console.WriteLine(e.ToString());
+            //Disconnect();
         }
 
         private static async void OnPacktRevieved(ArchipelagoPacketBase packet)

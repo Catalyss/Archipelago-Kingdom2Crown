@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
+using Archipelago.MultiClient.Net.Helpers;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -101,6 +103,8 @@ public class Plugin : BasePlugin
     }
 
 }
+
+
 
 [HarmonyPatch(typeof(SteedSpawn), "Pay")]
 public class SteedPayPatch
@@ -683,17 +687,21 @@ public static class APIDsRegisterClass
         APIDRegistry.AddNew("Stone Technology", 755175);                        //Item      1  
         APIDRegistry.AddNew("Iron Technology", 7551176);                        //Item      1
 
+        APIDRegistry.AddNew("Random Game Effect (junk)", 755177);               //Junk
+
         int[] hermitUseIds = { 755097, 755099, 755101, 755103, 755105 };
         int[] mountUseIds = { 755150, 755151, 755152, 755153, 755154, 755155, 755156, 755157, 755158, 755159, 755160, 755161, 755162, 755163, 755164, 755165, 755166 };
         int[] statusUseIds = { 755167, 755168, 755169, 755170 };
         int[] techUseIds = { 755175, 755176 };
         int[] castleUseIds = { 755091, 755092, 755093, 755094, 755095 };
+        int[] junkIds = { 755177 };
 
         APItemRegistry.RegisterItems(hermitUseIds);
         APItemRegistry.RegisterItems(mountUseIds);
         APItemRegistry.RegisterItems(statusUseIds);
         APItemRegistry.RegisterItems(techUseIds);
         APItemRegistry.RegisterItems(castleUseIds);
+        APItemRegistry.RegisterItems(junkIds);
     }
 
     public static int GetID(string name) => APIDRegistry.Get(name);
@@ -1153,3 +1161,26 @@ public class KeyHandler : MonoBehaviour
 }
 
 
+public static class JsonHelper
+{
+    private static readonly MethodInfo SerializeMethod;
+
+    static JsonHelper()
+    {
+        // Get the SerializeObject(object) method from the game’s Newtonsoft
+        SerializeMethod = typeof(JsonConvert).GetMethod(
+            "SerializeObject", 
+            new Type[] { typeof(object) }
+        );
+
+        if (SerializeMethod == null)
+        {
+            throw new Exception("JsonConvert.SerializeObject(object) not found in the game DLL!");
+        }
+    }
+
+    public static string Serialize(object obj)
+    {
+        return (string)SerializeMethod.Invoke(null, new object[] { obj });
+    }
+}
