@@ -24,8 +24,8 @@ Then, unzip the file at your game's root folder (if you use steam, you can right
 
 Follow the same procedure for CPP2IL.Patch (from here: https://github.com/abevol/KingdomMod/releases/download/2.4.0/Cpp2IL.Patch.zip)
 
-The directory should now look like this: 
-![[docs/K2CDirectoryWithBepin.png]]
+The directory should now look like this:
+<img width="714" height="461" alt="K2CDirectoryWithBepin" src="https://github.com/user-attachments/assets/386df788-973a-4457-84c4-489d2313895c" />
 *(the zip files don't have to stay here)*
 
 Then, simply run the game once to initialize BepinEx, you can then close the game
