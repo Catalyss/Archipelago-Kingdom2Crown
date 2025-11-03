@@ -12,6 +12,12 @@ The items are:
 - the ability to use stone & iron age related stuff
 - unlocking statues, hermits, and mounts
 
+What is the GOAL
+- Kill the greed on all islands
+
+Are DLC supported ?
+- Not yet (shogun might work but I can't guarantee that)
+
 ### How to install the mod? 
 
 Sadly, there is no mod loader that support K2C at this time, so you'll have to do it yourself, here's a quick guide:
